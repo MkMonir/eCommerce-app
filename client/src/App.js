@@ -1,32 +1,52 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import './App.css';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Home from './pages/Home';
-import Cart from './pages/Cart';
-import Login from './pages/Login';
-import ProductList from './pages/ProductList';
-import Product from './pages/Product';
-import Register from './pages/Register';
+import './app.css';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from './context/authContext/AuthContext';
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
-const App = () => {
-  const user = useSelector((state) => state.user.currentUser);
+import AppProvider from './components/AppProvider';
+import Home from './pages/Home';
+import Products from './pages/Products';
+import Product from './pages/Product';
+import Cart from './pages/Cart';
+import About from './pages/About';
+import NotFound from './pages/NotFound';
+import Login from './pages/Login';
+import Success from './pages/Success';
+
+function App() {
+  const { user } = useContext(AuthContext);
 
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/register" element={!user ? <Register /> : <Navigate to="/" replace />} />
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/product/:id" element={<Product />} />
-          <Route path="/products/:category" element={<ProductList />} />
-        </Routes>
+        <AppProvider>
+          <Switch>
+            <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+            {/* component={Home} */}
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/products">
+              <Products />
+            </Route>
+            <Route
+              path="/products/:id"
+              render={(props) => <Product {...props} {...props.match.params} />}
+            />
+            <Route path="/cart" component={Cart} />
+            <Route path="/about" component={About} />
+            <Route path="/success" component={Success} />
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </AppProvider>
       </Router>
-      <ToastContainer theme="dark" />
+      {/* <ToastContainer theme="dark" /> */}
     </>
   );
-};
+}
+
 export default App;

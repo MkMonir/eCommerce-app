@@ -16,32 +16,17 @@ const Success = () => {
   }, [cart, dispatch]);
 
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '40px',
-      }}
-    >
-      Order has been created successfully. Your order number is.
-      <Link to="/" className="link">
-        <button
-          style={{
-            padding: 10,
-            marginTop: 20,
-            backgroundColor: 'teal',
-            border: 'none',
-            color: 'white',
-            fontSize: '20px',
-            cursor: 'pointer',
-            borderRadius: '15px',
-          }}
-        >
-          Go to Homepage
-        </button>
+    <div className="flex flex-col justify-center items-center text-center h-96 gap-3">
+      <div className="text-9xl text-green-600">
+        <i className=" checkmark">✓</i>
+      </div>
+      <h1 className="text-8xl text-green-600">Success</h1>
+      <p className="text-xl font-medium">
+        We received your purchase request;
+        <br /> we'll be in touch shortly!
+      </p>
+      <Link to="/" className="btn btn-large bg-green-600 hover:bg-green-800 text-lg text-white ">
+        <button className="font-medium">Go to Homepage</button>
       </Link>
     </div>
   );

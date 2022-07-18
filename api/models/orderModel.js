@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema(
   {
-    userId: { type: String, required: true },
+    customerId: { type: String, required: true },
     products: [
       {
         productId: {
@@ -14,7 +14,7 @@ const OrderSchema = new mongoose.Schema(
         },
       },
     ],
-    amount: { type: Number, required: true },
+    totalAmount: { type: Number, required: true },
     address: { type: Object, required: true },
     status: { type: String, default: 'pending' },
   },

@@ -1,37 +1,35 @@
-import { useSelector } from 'react-redux';
-import { publicRequest } from '../requestMethods';
-import styled from 'styled-components';
-
-const Button = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-`;
+import { userRequest } from '../requestMethods';
 
 const PayButton = ({ cartItems }) => {
-  const { user } = useSelector((state) => state.user.currentUser.data);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleCheckout = async () => {
     try {
-      const res = await publicRequest.post(`/orders/create-checkout-session`, {
-        cartItems,
-        userId: user._id,
-        userEmail: user.email,
-      });
-      if (res.data.session.url) {
-        window.location.href = res.data.session.url;
+      if (cartItems.quantity === 0) {
+        console.log('There have no cart item to checkout');
+      } else {
+        const res = await userRequest.post(`/stripe/create-checkout-session`, {
+          cartItems,
+          userId: user._id,
+          userEmail: user.email,
+        });
+        if (res.data.url) {
+          window.location.href = res.data.url;
+        }
       }
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
     }
   };
 
   return (
     <>
-      <Button onClick={() => handleCheckout()}>CHECKOUT NOW</Button>
+      <button
+        className="mt-4 text-center btn w-full bg-yellow-600 text-blue-50 font-semibold"
+        onClick={() => handleCheckout()}
+      >
+        CHECKOUT NOW
+      </button>
     </>
   );
 };

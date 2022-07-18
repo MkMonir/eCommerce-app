@@ -31,7 +31,7 @@ export default function Topbar() {
           <img
             src={
               user.data.user.profilePic ||
-              'https://cdn-icons-png.flaticon.com/512/892/892781.png?w=360'
+              'https://lh3.googleusercontent.com/22Db05RlfYwHDS9wN7uvQP_WMmTb9guxMNWTtiuw890xmp2JmcKuA9pg7C6QbmeDXdMIeQ=s50'
             }
             alt=""
             className="topAvatar"
